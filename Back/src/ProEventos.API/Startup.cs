@@ -28,11 +28,16 @@ namespace ProEventos.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Referência do banco de dados SQLite
+            /*
+            Repassa as informações do connect string, para criação de um contexto no banco de dados, um contexto é um De/para de classe para tabela.
+            Para o acionamento do builder referenciado no exemplo abaixo, indicamos ao services, qual contexto ele utilizará, e a classe que representa esse contexto
+            através de seu contructor repassará a informação a sua classe base, dessa maneira acionando o builder.
+            */
             services.AddDbContext<DataContext>(
                 context => context.UseSqlite(Configuration.GetConnectionString("Default"))
             );
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProEventos.API", Version = "v1" });
@@ -54,6 +59,10 @@ namespace ProEventos.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(access => access.AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {

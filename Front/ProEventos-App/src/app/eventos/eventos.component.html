@@ -1,0 +1,50 @@
+<h4 class="title">Eventos:</h4>
+<div *ngIf="events && events.length > 0">
+  <hr>
+  <div class="form-inline">
+    <div class="form-group mb-2">
+      <label class="mr-2">Filtro: </label>
+      <input type="text" class="form-control mr-2" placeholder="buscar"
+        [(ngModel)]="filterString"
+      >
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="changeShowImg()">
+            {{!showImg ? 'Ocultar' : 'Exibir'}}
+          </button>
+        </th>
+        <th>#</th>
+        <th>Tema</th>
+        <th>Local</th>
+        <th>Data</th>
+        <th>Qtd Pessoas</th>
+        <th>Lote</th>
+        <th>Opções</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of filterEvents">
+        <td><img [collapse]="showImg" [isAnimated]="true"
+          src="../../assets/img/{{event.imagemURL}}" class="img-evento rounded float-start"></td>
+        <td>{{event.eventoId}}</td>
+        <td>{{event.tema}}</td>
+        <td>{{event.local}}</td>
+        <td>{{event.dataEvento}}</td>
+        <td>{{event.qtdPessoas}}</td>
+        <td>{{event.lote}}</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary mr-2" (click)="teste(event.tema)">Editar</button>
+          <button type="button" class="btn btn-outline-danger">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="events.length == 0">
+  <img src="../../assets/img/robo.jpg" class="img-fluid" alt="Responsive image" style="max-height: 400px; min-width: 100%;"/>
+  <h4 class="text-center">Desculpe, não há dados aqui...</h4>
+</div>
